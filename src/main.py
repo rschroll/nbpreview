@@ -1,14 +1,6 @@
 # Copyright 2024 Robert Schroll
 # This file is part of nbpreview, and is released under the BSD 2-clause license.
 
-# The webkit webview is blank without this.  But only in this application.  Other,
-# simpler, setups work just fine.  Weird.
-# https://www.reddit.com/r/suckless/comments/rprzrl/surf_shows_white_screen_on_most_sites/
-# https://bugs.webkit.org/show_bug.cgi?id=238513 (Maybe)
-import os
-os.environ['WEBKIT_DISABLE_COMPOSITING_MODE'] = '1'
-
-
 import sys
 import gi
 

@@ -24,14 +24,14 @@
     ],
     "modules" : [
         {
-            "name": "pip-install",
-            "buildsystem": "simple",
-            "build-options": {
-                "build-args": [
+            "name" : "pip-install",
+            "buildsystem" : "simple",
+            "build-options" : {
+                "build-args" : [
                     "--share=network"
                 ]
             },
-            "build-commands": [
+            "build-commands" : [
                 "pip install --prefix=/app nbconvert"
             ]
         },
@@ -46,5 +46,8 @@
                 }
             ]
         }
-    ]
+    ],
+    "build-options" : {
+        "env" : {        }
+    }
 }
