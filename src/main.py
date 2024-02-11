@@ -16,7 +16,7 @@ gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
 gi.require_version('WebKit', '6.0')
 
-from gi.repository import Gtk, Gio, Adw
+from gi.repository import GLib, Gtk, Gio, Adw
 from .window import NbpreviewWindow, AboutDialog
 
 
@@ -29,6 +29,14 @@ class NbpreviewApplication(Adw.Application):
         self.create_action('quit', self.quit, ['<primary>q'])
         self.create_action('about', self.on_about_action)
         self.create_action('preferences', self.on_preferences_action)
+        self.create_action('open', self.on_open, ['<primary>o'])
+
+    def get_window(self):
+        """Get or create a window."""
+        win = self.props.active_window
+        if not win:
+            win = NbpreviewWindow(application=self)
+        return win
 
     def do_activate(self):
         """Called when the application is activated.
@@ -36,9 +44,7 @@ class NbpreviewApplication(Adw.Application):
         We raise the application's main window, creating it if
         necessary.
         """
-        win = self.props.active_window
-        if not win:
-            win = NbpreviewWindow(application=self)
+        win = self.get_window()
         win.present()
 
     def on_about_action(self, widget, _):
@@ -49,8 +55,33 @@ class NbpreviewApplication(Adw.Application):
     def on_preferences_action(self, widget, _):
         """Callback for the app.preferences action."""
         print('app.preferences action activated')
-        wv = self.props.active_window.webview
-        print(wv.get_size(0), wv.get_size(1))
+
+    def on_open(self, widget, _):
+        """Callback for the app.open action."""
+        win = self.get_window()
+
+        filt = Gtk.FileFilter()
+        filt.set_name("Notebooks")
+        filt.add_suffix('ipynb')
+
+        filts = Gio.ListStore.new(Gtk.FileFilter)
+        filts.append(filt)
+
+        dialog = Gtk.FileDialog()
+        dialog.set_title("Open Notebook")
+        dialog.set_filters(filts)
+        dialog.set_default_filter(filt)
+        dialog.open(win, None, self.on_open_callback)
+
+    def on_open_callback(self, dialog, result):
+        """Callback to finish the app.open action."""
+        try:
+            f = dialog.open_finish(result)
+            if f:
+                win = self.get_window()
+                win.load_notebook(f)
+        except GLib.Error as error:
+            print(f'Error opening file: {error.message}')
 
     def create_action(self, name, callback, shortcuts=None):
         """Add an application action.

@@ -24,6 +24,18 @@
     ],
     "modules" : [
         {
+            "name": "pip-install",
+            "buildsystem": "simple",
+            "build-options": {
+                "build-args": [
+                    "--share=network"
+                ]
+            },
+            "build-commands": [
+                "pip install --prefix=/app nbconvert"
+            ]
+        },
+        {
             "name" : "nbpreview",
             "builddir" : true,
             "buildsystem" : "meson",
