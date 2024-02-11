@@ -1,6 +1,10 @@
 # Copyright 2024 Robert Schroll
 # This file is part of nbpreview, and is released under the BSD 2-clause license.
 
+# Somehow the install messes up the share path for Jupyter resources
+import os
+os.environ['JUPYTER_PATH'] = '/app/share/jupyter'
+
 import nbformat
 from nbconvert import HTMLExporter
 
