@@ -13,6 +13,15 @@ VERSION = '@VERSION@'
 pkgdatadir = '@pkgdatadir@'
 localedir = '@localedir@'
 
+# The webkit webview is blank without this.  But only in this application.  Other,
+# simpler, setups work just fine.  Weird.
+# https://www.reddit.com/r/suckless/comments/rprzrl/surf_shows_white_screen_on_most_sites/
+# https://bugs.webkit.org/show_bug.cgi?id=238513 (Maybe)
+os.environ['WEBKIT_DISABLE_COMPOSITING_MODE'] = '1'
+
+# Somehow the install messes up the share path for Jupyter resources
+os.environ['JUPYTER_PATH'] = '/app/share/jupyter'
+
 sys.path.insert(1, pkgdatadir)
 signal.signal(signal.SIGINT, signal.SIG_DFL)
 locale.bindtextdomain('nbpreview', localedir)
