@@ -20,6 +20,7 @@ class NbpreviewWindow(Gtk.ApplicationWindow):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.notebook = None
         self.webview.load_html('<h1>Open a File</h1>')
 
     def load_notebook(self, file):
@@ -32,6 +33,7 @@ class NbpreviewWindow(Gtk.ApplicationWindow):
         html, _ = HTMLExporter(template_name='classic').from_notebook_node(notebook)
         self.webview.load_html(html)
         self.set_title(file.get_basename())
+        self.notebook = file.get_path()
 
 
 class AboutDialog(Gtk.AboutDialog):

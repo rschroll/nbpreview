@@ -31,7 +31,7 @@ class NbpreviewApplication(Adw.Application):
         self.create_action('preferences', self.on_preferences_action)
         self.create_action('open', self.on_open, ['<primary>o'])
 
-    def get_window(self):
+    def get_active_window(self):
         """Get or create a window."""
         win = self.props.active_window
         if not win:
@@ -44,7 +44,7 @@ class NbpreviewApplication(Adw.Application):
         We raise the application's main window, creating it if
         necessary.
         """
-        win = self.get_window()
+        win = self.get_active_window()
         win.present()
 
     def on_about_action(self, widget, _):
@@ -58,7 +58,7 @@ class NbpreviewApplication(Adw.Application):
 
     def on_open(self, widget, _):
         """Callback for the app.open action."""
-        win = self.get_window()
+        win = self.get_active_window()
 
         filt = Gtk.FileFilter()
         filt.set_name("Notebooks")
@@ -76,12 +76,23 @@ class NbpreviewApplication(Adw.Application):
     def on_open_callback(self, dialog, result):
         """Callback to finish the app.open action."""
         try:
-            f = dialog.open_finish(result)
-            if f:
-                win = self.get_window()
-                win.load_notebook(f)
+            file = dialog.open_finish(result)
+            if file:
+                self.load_notebook(file)
         except GLib.Error as error:
             print(f'Error opening file: {error.message}')
+
+    def load_notebook(self, file):
+        for win in self.get_windows():
+            if win.notebook == file.get_path():
+                win.present()
+                return
+            if not win.notebook:
+                break
+        else:
+            win = NbpreviewWindow(application=self)
+        win.load_notebook(file)
+        win.present()
 
     def create_action(self, name, callback, shortcuts=None):
         """Add an application action.
