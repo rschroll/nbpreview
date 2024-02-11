@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=nbpreview
+Exec=nbpreview
+Icon=io.github.rschroll.nbpreview
+Terminal=false
+Type=Application
+Categories=GTK;
+StartupNotify=true

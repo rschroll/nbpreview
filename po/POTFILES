@@ -1,0 +1,7 @@
+data/io.github.rschroll.nbpreview.desktop.in
+data/io.github.rschroll.nbpreview.appdata.xml.in
+data/io.github.rschroll.nbpreview.gschema.xml
+src/window.ui
+src/main.py
+src/window.py
+
