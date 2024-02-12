@@ -54,7 +54,7 @@ class NbpreviewApplication(Adw.Application):
 
         filt = Gtk.FileFilter()
         filt.set_name("Notebooks")
-        filt.add_suffix('ipynb')
+        filt.add_mime_type('application/x-ipynb+json')
 
         filts = Gio.ListStore.new(Gtk.FileFilter)
         filts.append(filt)
