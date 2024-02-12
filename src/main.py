@@ -17,7 +17,7 @@ class NbpreviewApplication(Adw.Application):
 
     def __init__(self):
         super().__init__(application_id='io.github.rschroll.nbpreview',
-                         flags=Gio.ApplicationFlags.FLAGS_NONE)
+                         flags=Gio.ApplicationFlags.HANDLES_OPEN)
         self.create_action('quit', self.quit, ['<primary>q'])
         self.create_action('about', self.on_about_action)
         self.create_action('preferences', self.on_preferences_action)
@@ -38,6 +38,10 @@ class NbpreviewApplication(Adw.Application):
         """
         win = self.get_active_window()
         win.present()
+
+    def do_open(self, files, _, _):
+        for file in files:
+            self.load_notebook(file)
 
     def on_about_action(self, widget, _):
         """Callback for the app.about action."""
