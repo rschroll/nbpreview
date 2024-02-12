@@ -38,7 +38,7 @@ class NbpreviewApplication(Adw.Application):
         win = self.get_active_window()
         win.present()
 
-    def do_open(self, files, _, _):
+    def do_open(self, files, _1, _2):
         for file in files:
             self.load_notebook(file)
 
