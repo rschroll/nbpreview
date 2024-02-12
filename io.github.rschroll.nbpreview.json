@@ -1,7 +1,7 @@
 {
     "app-id" : "io.github.rschroll.nbpreview",
     "runtime" : "org.gnome.Platform",
-    "runtime-version" : "master",
+    "runtime-version" : "45",
     "sdk" : "org.gnome.Sdk",
     "command" : "nbpreview",
     "finish-args" : [
@@ -24,15 +24,16 @@
     ],
     "modules" : [
         {
-            "name": "pip-install",
-            "buildsystem": "simple",
-            "build-options": {
-                "build-args": [
+            "name" : "pip-install",
+            "buildsystem" : "simple",
+            "build-options" : {
+                "build-args" : [
                     "--share=network"
                 ]
             },
-            "build-commands": [
-                "pip install --prefix=/app nbconvert"
+            "build-commands" : [
+                "pip install --prefix=/app nbconvert",
+                "cp -r /usr/lib/python3.11/site-packages/pygments /app/lib/python3.11/site-packages/pygments"
             ]
         },
         {
