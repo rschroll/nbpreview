@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=nbpreview
+Name=Notebook Preview
 Exec=nbpreview %F
 Icon=io.github.rschroll.nbpreview
 Terminal=false

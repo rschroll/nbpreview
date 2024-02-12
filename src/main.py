@@ -20,7 +20,6 @@ class NbpreviewApplication(Adw.Application):
                          flags=Gio.ApplicationFlags.HANDLES_OPEN)
         self.create_action('quit', self.quit, ['<primary>q'])
         self.create_action('about', self.on_about_action)
-        self.create_action('preferences', self.on_preferences_action)
         self.create_action('open', self.on_open, ['<primary>o'])
 
     def get_active_window(self):
@@ -47,10 +46,6 @@ class NbpreviewApplication(Adw.Application):
         """Callback for the app.about action."""
         about = AboutDialog(self.props.active_window)
         about.present()
-
-    def on_preferences_action(self, widget, _):
-        """Callback for the app.preferences action."""
-        print('app.preferences action activated')
 
     def on_open(self, widget, _):
         """Callback for the app.open action."""
