@@ -4,8 +4,36 @@
 import nbformat
 from nbconvert import HTMLExporter
 
-from gi.repository import Gtk
+from gi.repository import Gtk, WebKit
 from gi.repository.WebKit import WebView  # https://stackoverflow.com/a/60136494
+
+
+OPEN_URI = "/open-notebook"
+OPEN_HTML = f"""
+<html>
+    <head>
+        <style>
+            body {{
+                height: 100vh;
+                margin: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }}
+            button {{
+                font-size: 2em;
+                font-weight: bold;
+                padding: 0.5em;
+            }}
+        </style>
+    </head>
+    <body>
+        <form action="{OPEN_URI}" method="GET">
+            <button type="submit">Open a Notebook</input>
+        </form>
+    </body>
+</html>
+"""
 
 
 @Gtk.Template(resource_path='/io/github/rschroll/nbpreview/window.ui')
@@ -17,7 +45,23 @@ class NbpreviewWindow(Gtk.ApplicationWindow):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.notebook = None
-        self.webview.load_html('<h1>Open a File</h1>')
+        self.webview.load_html(OPEN_HTML)
+        self.webview.connect('decide-policy', self.do_decide_policy)
+
+    def do_decide_policy(self, webview, decision, decision_type):
+        if decision_type != WebKit.PolicyDecisionType.NAVIGATION_ACTION:
+            return False  # Handle as usual
+
+        uri = decision.get_navigation_action().get_request().get_uri()
+        if uri == 'about:blank':  # Loading a string
+            return False  # No decision; continue as usual
+
+        decision.ignore()
+        if uri == OPEN_URI:
+            self.get_application().activate_action('open')
+        else:
+            Gtk.UriLauncher.new(uri).launch()
+        return True  # Stop other handlers
 
     def load_notebook(self, file):
         success, contents, _ = file.load_contents()
