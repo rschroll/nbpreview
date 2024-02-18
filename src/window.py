@@ -80,7 +80,7 @@ class AboutDialog(Gtk.AboutDialog):
 
     def __init__(self, parent):
         Gtk.AboutDialog.__init__(self)
-        self.props.program_name = 'nbpreview'
+        self.props.program_name = 'Notebook Preview'
         self.props.version = "0.1.0"
         self.props.authors = ['Robert Schroll']
         self.props.copyright = '2024 Robert Schroll'
