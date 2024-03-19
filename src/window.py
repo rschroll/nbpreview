@@ -53,7 +53,7 @@ class NbpreviewWindow(Gtk.ApplicationWindow):
             return False  # Handle as usual
 
         uri = decision.get_navigation_action().get_request().get_uri()
-        if uri == 'about:blank':  # Loading a string
+        if uri == 'about:blank' or uri.startswith('file://'):  # Loading a string
             return False  # No decision; continue as usual
 
         decision.ignore()
@@ -71,7 +71,8 @@ class NbpreviewWindow(Gtk.ApplicationWindow):
 
         notebook = nbformat.reads(contents, nbformat.NO_CONVERT)
         html, _ = HTMLExporter(template_name='classic').from_notebook_node(notebook)
-        self.webview.load_html(html)
+        base_uri = file.get_uri()  # File name will be ignored
+        self.webview.load_html(html, base_uri)
         self.set_title(file.get_basename())
         self.notebook = file.get_path()
 
