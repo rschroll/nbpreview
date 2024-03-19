@@ -6,7 +6,7 @@ Notebook Preview is a small GTK application to display Jupyter Notebooks.  Its p
 
 Notebook Preview is available as a flatpak bundle for Linux systems.  You will need to [install flatpak](https://flatpak.org/setup/) if your distribution does have it installed.
 
-Download the [`.flatpak` file](https://github.com/rschroll/nbpreview/releases/download/v0.1.0/io.github.rschroll.nbpreview.flatpak) from [Releases](https://github.com/rschroll/nbpreview/releases) page.  Then install it on your system with
+Download the [`.flatpak` file](https://github.com/rschroll/nbpreview/releases/download/v0.2.0/io.github.rschroll.nbpreview.flatpak) from [Releases](https://github.com/rschroll/nbpreview/releases) page.  Then install it on your system with
 ```
 flatpak install io.github.rschroll.nbpreview.flatpak
 ```
